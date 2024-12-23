@@ -109,8 +109,31 @@ function disconnectFromRoku() {
     rokuIPInput.value = "";
     rokuList.classList.remove("visible");
     disconnectButton.style.display = 'none';
-}
-
+}document.addEventListener('keydown', function(event) {
+  let key = event.key;
+  if (connected) {
+  if (key === "Backspace") {
+      sendKey("Backspace");
+  } else if (key === "Enter"){
+    sendKey("select")
+  } else if (key === "ArrowUp"){
+    sendKey("up")
+  } else if (key === "ArrowDown"){
+    sendKey("down")
+  } else if (key === "ArrowLeft"){
+    sendKey("left")
+  } else if (key === "ArrowRight"){
+    sendKey("right")
+  } else if (key === "Escape"){
+    sendKey("back")
+  }
+  else if (key.length === 1 && key.charCodeAt(0) <= 127) {
+      const encodedKey = encodeURIComponent(key);
+      sendKey("lit_" + encodedKey); // Add "lit_" prefix
+  } else {
+      console.log("Key ignored (not single ASCII or Backspace):", key);
+  }}
+});
 async function sendKey(key) {
     if (!connected) {
         alert("Please connect to a Roku device first.");
