@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roku Remote</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <link rel="stylesheet" href="index.css">
+    <script type="text/javascript" src="/eel.js"></script>
+</head>
+<body>
+    <h1>Roku Remote</h1>
+    <div id="roku-status"></div>
+    <div id="connection-controls">
+        <button onclick="discoverRokus()" style="margin-top: 10px;">Discover Rokus</button>
+        <div id="rokuListContainer">
+            <ul id="rokuList"></ul>
+        </div>
+        <div class="manual-connect-container">
+            <h2 id="manualConnectHeader">Manual Connect <i class="fas fa-caret-down"></i></h2>
+            <div id="manualConnectContent">
+                <label for="rokuIP">Roku IP Address:</label>
+                <input type="text" id="rokuIP" placeholder="Enter Roku IP (e.g., 192.168.1.XXX)">
+                <button id="connectButton" onclick="connectToRoku()">Connect</button>
+            </div>
+        </div>
+        <button id="disconnectButton" onclick="disconnectFromRoku()" style="margin-top: 10px; display: none;">Disconnect</button>
+    </div>
+    <div class="remote" id="remote-controls" style="display: none;">
+        <div class="info-power-controls">
+            <button onclick="sendKey('info')"><i class="fas fa-info-circle"></i></button>
+            <button onclick="sendKey('poweroff')"><i class="fas fa-power-off"></i></button>
+        </div>
+        <div class="nav-controls">
+            <div></div>
+            <button onclick="sendKey('up')"><i class="fas fa-angle-up"></i></button>
+            <div></div>
+            <button onclick="sendKey('left')"><i class="fas fa-angle-left"></i></button>
+            <button onclick="sendKey('select')"><i class="fas fa-circle-dot"></i></button>
+            <button onclick="sendKey('right')"><i class="fas fa-angle-right"></i></button>
+            <div></div>
+            <button onclick="sendKey('down')"><i class="fas fa-angle-down"></i></button>
+            <div></div>
+        </div>
+        <div class="volume-controls">
+            <button onclick="sendKey('volumedown')"><i class="fas fa-volume-down"></i></button>
+            <button onclick="sendKey('volumemute')"><i class="fas fa-volume-xmark"></i></button>
+            <button onclick="sendKey('volumeup')"><i class="fas fa-volume-up"></i></button>
+        </div>
+        <div class="media-controls">
+            <button onclick="sendKey('rev')"><i class="fas fa-backward"></i></button>
+            <button onclick="sendKey('play')"><i class="fas fa-play"></i></button>
+            <button onclick="sendKey('fwd')"><i class="fas fa-forward"></i></button>
+        </div>
+        <div class="bottom-controls">
+            <button onclick="sendKey('home')"><i class="fas fa-home"></i></button>
+            <button onclick="sendKey('instantreplay')"><i class="fas fa-arrow-rotate-left"></i></button>
+            <button onclick="sendKey('back')"><i class="fas fa-arrow-left"></i></button>
+        </div>
+    </div>
+
+    <script src="index.js"></script>
+</body>
+</html>
