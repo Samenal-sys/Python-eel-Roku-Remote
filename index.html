@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roku Remote</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            font-family: sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #121212;
+            color: #eee;
+            margin: 20px;
+        }
+
+        .remote {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-gap: 10px;
+            padding: 20px;
+            background-color: #212121;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .info-power-controls {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 10px;
+            grid-column: 1 / span 3;
+            gap: 10px;
+        }
+
+        .info-power-controls button {
+            width: 60px;
+            height: 30px;
+        }
+
+        .volume-controls {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+            grid-column: 1 / span 3;
+        }
+
+        .volume-controls button {
+            margin: 0 5px;
+        }
+
+        .nav-controls {
+            grid-column: 1 / span 3;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            justify-items: center;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .nav-controls button {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin: 5px;
+        }
+
+        button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            background-color: #8e44ad;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #7b389c;
+        }
+
+        #rokuIP {
+            margin-bottom: 10px;
+            padding: 8px;
+            border: 1px solid #555;
+            border-radius: 4px;
+            background-color: #333;
+            color: #eee;
+            width: 200px;
+        }
+
+        h1 {
+            margin-bottom: 10px;
+            color: #eee;
+        }
+
+        .bottom-controls {
+            grid-column: 1 / span 3;
+            display: flex;
+            justify-content: space-around;
+            margin-top: 10px;
+            gap: 10px;
+        }
+
+        .bottom-controls button {
+            width: 60px;
+            height: 30px;
+        }
+
+        .media-controls {
+            grid-column: 1 / span 3;
+            display: flex;
+            justify-content: space-around;
+            margin-top: 10px;
+            gap: 10px;
+        }
+
+        .media-controls button {
+            width: 60px;
+            height: 30px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Roku Remote</h1>
+    <label for="rokuIP">Roku IP Address:</label>
+    <input type="text" id="rokuIP" placeholder="Enter Roku IP (e.g., 192.168.1.XXX)">
+    <div class="remote">
+        <div class="info-power-controls">
+            <button onclick="sendKey('info')"><i class="fas fa-info-circle"></i></button>
+            <button onclick="sendKey('poweroff')"><i class="fas fa-power-off"></i></button>
+        </div>
+        <div class="nav-controls">
+            <div></div>
+            <button onclick="sendKey('up')"><i class="fas fa-angle-up"></i></button>
+            <div></div>
+            <button onclick="sendKey('left')"><i class="fas fa-angle-left"></i></button>
+            <button onclick="sendKey('select')"><i class="fas fa-circle-dot"></i></button>
+            <button onclick="sendKey('right')"><i class="fas fa-angle-right"></i></button>
+            <div></div>
+            <button onclick="sendKey('down')"><i class="fas fa-angle-down"></i></button>
+            <div></div>
+        </div>
+        <div class="volume-controls">
+            <button onclick="sendKey('volumedown')"><i class="fas fa-volume-down"></i></button>
+            <button onclick="sendKey('mute')"><i class="fas fa-volume-xmark"></i></button>
+            <button onclick="sendKey('volumeup')"><i class="fas fa-volume-up"></i></button>
+        </div>
+        <div class="media-controls">
+            <button onclick="sendKey('rev')"><i class="fas fa-backward"></i></button>
+            <button onclick="sendKey('play')"><i class="fas fa-play"></i></button>
+            <button onclick="sendKey('fwd')"><i class="fas fa-forward"></i></button>
+        </div>
+        <div class="bottom-controls">
+            <button onclick="sendKey('home')"><i class="fas fa-home"></i></button>
+            <button onclick="sendKey('instantreplay')"><i class="fas fa-arrow-rotate-left"></i></button>
+            <button onclick="sendKey('back')"><i class="fas fa-arrow-left"></i></button>
+        </div>
+    </div>
+
+    <script>
+        const storageAvailable = typeof(Storage) !== 'undefined';
+        const rokuIPInput = document.getElementById('rokuIP');
+
+        if (storageAvailable) {
+            try {
+                const storedIP = localStorage.getItem('rokuIP');
+                if (storedIP) {
+                    rokuIPInput.value = storedIP;
+                }
+            } catch (error) {
+                console.error("Error retrieving from localStorage:", error);
+            }
+        } else {
+            console.log("localStorage is not available.");
+        }
+
+        function sendKey(key) {
+            const rokuIP = rokuIPInput.value;
+            if (!rokuIP) {
+                alert("Please enter Roku IP address");
+                return;
+            }
+            if (storageAvailable){
+                try{
+                    localStorage.setItem('rokuIP', rokuIP);
+                } catch (error){
+                    console.error("error setting local storage", error)
+                }
+            }
+
+            const url = `http://${rokuIP}:8060/keypress/${key}`;
+
+            fetch(url, {
+                method: 'POST',
+                body: "true",
+                headers: {
+                    'Content-Type': 'text/plain'
+                }
+            })
+            .then(response => {
+                if (!response.ok && response.status !== 204) {
+                    console.error(`HTTP error! status: ${response.status}`);
+                } else {
+                    console.log(`Sent key: ${key}, Status: ${response.status}`);
+                }
+            })
+            .catch(error => {
+                console.error('Fetch error:', error);
+            });
+        }
+    </script>
+</body>
+</html>
