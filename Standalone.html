@@ -181,7 +181,31 @@
         } else {
             console.log("localStorage is not available.");
         }
-
+        document.addEventListener('keydown', function(event) {
+  let key = event.key;
+  if (connected) {
+  if (key === "Backspace") {
+      sendKey("Backspace");
+  } else if (key === "Enter"){
+    sendKey("select")
+  } else if (key === "ArrowUp"){
+    sendKey("up")
+  } else if (key === "ArrowDown"){
+    sendKey("down")
+  } else if (key === "ArrowLeft"){
+    sendKey("left")
+  } else if (key === "ArrowRight"){
+    sendKey("right")
+  } else if (key === "Escape"){
+    sendKey("back")
+  }
+  else if (key.length === 1 && key.charCodeAt(0) <= 127) {
+      const encodedKey = encodeURIComponent(key);
+      sendKey("lit_" + encodedKey); // Add "lit_" prefix
+  } else {
+      console.log("Key ignored (not single ASCII or Backspace):", key);
+  }}
+});
         function sendKey(key) {
             const rokuIP = rokuIPInput.value;
             if (!rokuIP) {
